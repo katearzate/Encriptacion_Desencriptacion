@@ -17,7 +17,7 @@ int main(){
 	fgets(mensaje, MAX, stdin);
 	mensaje[strcspn(mensaje, "\r\n")] = 0;
 	int dim1, dim2, op;
-	printf("Ingresar dimension de columnas de matriz (3,4 ó 5): ");
+	printf("Ingresar dimension de columnas de matriz: ");
 	scanf("%d", &dim1);
 	
 	size_t tamanoMen = 0;
@@ -76,8 +76,8 @@ void encriptarMat(char mensaje[MAX], int dim1, int dim2){
 	}
 		
 	//Matriz transpuesta *********
-	printf("\nMatriz transpuesta:\n");
-	char mensajeEnc[strlen(mensaje)];
+	printf("\nMatriz transpuesta:\n");	
+	char mensajeEnc[(dim1*dim2) + 1];
 	int posicionEnc = 0;
 	for (i = 0; i < dim1; i++)
 	{
@@ -89,6 +89,9 @@ void encriptarMat(char mensaje[MAX], int dim1, int dim2){
 		}
 		printf("\n");
 	}
+	mensajeEnc[(dim1*dim2)] = '\0'; 
+	printf("\nTAMANO MENSAJE: %ld\n", strlen(mensajeEnc));
+
 	
 	printf("\nMensaje transpuesto:\n");	
 	imprimir(mensajeEnc);
@@ -108,9 +111,9 @@ void desencriptarMat(char mensaje[MAX], int dim1, int dim2){
 	{
 		for (j = 0; j < dim2; j++)
 		{
-			/*if((mensaje[posicion] == '%') | (mensaje[posicion] == '&')) 
+			if((mensaje[posicion] == '%') | (mensaje[posicion] == '&')) 
 				mensaje[posicion] = ' ';
-			*/arreglo[i][j] = mensaje[posicion];
+			arreglo[i][j] = mensaje[posicion];
 			printf("%c", arreglo[i][j]);
 			posicion++;
 		}
@@ -118,7 +121,7 @@ void desencriptarMat(char mensaje[MAX], int dim1, int dim2){
 	}
 	
 	printf("\nMatriz descifrada:\n");
-	char mensajeEnc[strlen(mensaje)];
+	char mensajeEnc[(dim1*dim2) + 1];
 	int posicionEnc = 0;
 	for (i = 0; i < dim2; i++)
 	{
@@ -130,7 +133,7 @@ void desencriptarMat(char mensaje[MAX], int dim1, int dim2){
 		}
 		printf("\n");
 	}
-	
+	mensajeEnc[(dim1*dim2)] = '\0'; 
 	printf("\nMensaje transpuesto:\n");	
 	imprimir(mensajeEnc);
 }
