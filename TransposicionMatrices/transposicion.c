@@ -6,9 +6,15 @@
 #define MAX 80
 #define CGRN "\x1B[32m"
 
+typedef struct matriz{
+	unsigned filas;
+	unsigned cols;
+	char** datos;
+}Matriz; 
 
-void encriptarMat(char mensaje[MAX], int dim1, int dim2); 
-void desencriptarMat(char mensaje[MAX], int dim1, int dim2); 
+
+void encriptarMat(char mensaje[MAX], Matriz* mat); 
+void desencriptarMat(char mensaje[MAX], Matriz* mat); 
 void imprimir(char* mensaje);
 
 int main(){
@@ -16,15 +22,16 @@ int main(){
 	printf("\nMensaje: ");
 	fgets(mensaje, MAX, stdin);
 	mensaje[strcspn(mensaje, "\r\n")] = 0;
-	int dim1, dim2, op;
+	int op;
+	Matriz* matriz = (Matriz*)malloc(sizeof(Matriz));
 	printf("Ingresar dimension de columnas de matriz: ");
-	scanf("%d", &dim1);
+	scanf("%d", &matriz->cols);
 	
 	size_t tamanoMen = 0;
-	tamanoMen = strlen(mensaje);	//Definir tamaño de dim2 (renglones)
-	dim2 = (tamanoMen / dim1); 
-	if((tamanoMen%dim1) != 0){
-		dim2+=1;
+	tamanoMen = strlen(mensaje);	//Definir tamaño de mat->filas (renglones)
+	matriz->filas = (tamanoMen / matriz->cols); 
+	if((tamanoMen%matriz->cols) != 0){
+		matriz->filas+=1;
 	}
 	
 	Eleccion:
@@ -32,10 +39,10 @@ int main(){
 	scanf("%d", &op);
 	switch(op){
 		case 1:
-			encriptarMat(mensaje, dim1, dim2);
+			encriptarMat(mensaje, matriz);
 			break;
 		case 2: 
-			desencriptarMat(mensaje, dim1, dim2);
+			desencriptarMat(mensaje, matriz);
 			break;
 		default: 
 			printf("No se eligió bien");
@@ -45,31 +52,31 @@ int main(){
 }
 
 //************************* ENCRIPTAR ****************************
-void encriptarMat(char mensaje[MAX], int dim1, int dim2){
+void encriptarMat(char mensaje[MAX], Matriz* mat){
 	int i, j;
 	
 	//concatenar relleno del mensaje
-	int resto = abs((dim1 * dim2) - strlen(mensaje));
+	int resto = abs((mat->cols * mat->filas) - strlen(mensaje));
 	const char* relleno = "&";
 	for (i = 0; i < resto; i++)
 		strncat(mensaje, relleno, (strlen(mensaje)+i+1));
 	
 	//crear espacio de memoria para matriz
-	char** arreglo = (char**)malloc(sizeof(char*) * dim2);
-	for (i = 0; i < dim2; i++)
-		arreglo[i] = (char*)malloc(sizeof(char) * dim1);
+	mat->datos = (char**)malloc(sizeof(char*) * mat->filas);
+	for (i = 0; i < mat->filas; i++)
+		mat->datos[i] = (char*)malloc(sizeof(char) * mat->cols);
 	
 	//recorrer y llenar matriz con el mensaje de r a c
 	int posicion = 0;
 	printf("\nMatriz original:\n");
-	for (i = 0; i < dim2; i++)
+	for (i = 0; i < mat->filas; i++)
 	{
-		for (j = 0; j < dim1; j++)
+		for (j = 0; j < mat->cols; j++)
 		{
 			if(mensaje[posicion] == ' ') 
 				mensaje[posicion] = '%';
-			arreglo[i][j] = mensaje[posicion];
-			printf("%c ", arreglo[i][j]);
+			mat->datos[i][j] = mensaje[posicion];
+			printf("%c ", mat->datos[i][j]);
 			posicion++;
 		}
 		printf("\n");
@@ -77,19 +84,19 @@ void encriptarMat(char mensaje[MAX], int dim1, int dim2){
 		
 	//Matriz transpuesta *********
 	printf("\nMatriz transpuesta:\n");	
-	char mensajeEnc[(dim1*dim2) + 1];
+	char mensajeEnc[(mat->cols*mat->filas) + 1];
 	int posicionEnc = 0;
-	for (i = 0; i < dim1; i++)
+	for (i = 0; i < mat->cols; i++)
 	{
-		for (j = 0; j < dim2; j++)
+		for (j = 0; j < mat->filas; j++)
 		{
-			mensajeEnc[posicionEnc] = arreglo[j][i];
-			printf("%c ", arreglo[j][i]);
+			mensajeEnc[posicionEnc] = mat->datos[j][i];
+			printf("%c ", mat->datos[j][i]);
 			posicionEnc++;
 		}
 		printf("\n");
 	}
-	mensajeEnc[(dim1*dim2)] = '\0'; 
+	mensajeEnc[(mat->cols*mat->filas)] = '\0'; 
 	printf("\nTAMANO MENSAJE: %ld\n", strlen(mensajeEnc));
 
 	
@@ -99,41 +106,41 @@ void encriptarMat(char mensaje[MAX], int dim1, int dim2){
 }
 
 //************************* DESENCRIPTAR ****************************
-void desencriptarMat(char mensaje[MAX], int dim1, int dim2){
+void desencriptarMat(char mensaje[MAX], Matriz* mat){
 	int i, j, posicion = 0;
 	
-	char** arreglo = (char**)malloc(sizeof(char*) * dim1);
-	for (i = 0; i < dim1; i++)
-		arreglo[i] = (char*)malloc(sizeof(char) * dim2);
+	mat->datos = (char**)malloc(sizeof(char*) * mat->cols);
+	for (i = 0; i < mat->cols; i++)
+		mat->datos[i] = (char*)malloc(sizeof(char) * mat->filas);
 	
 	printf("\nMatriz original:\n");
-	for (i = 0; i < dim1; i++)
+	for (i = 0; i < mat->cols; i++)
 	{
-		for (j = 0; j < dim2; j++)
+		for (j = 0; j < mat->filas; j++)
 		{
 			if((mensaje[posicion] == '%') | (mensaje[posicion] == '&')) 
 				mensaje[posicion] = ' ';
-			arreglo[i][j] = mensaje[posicion];
-			printf("%c", arreglo[i][j]);
+			mat->datos[i][j] = mensaje[posicion];
+			printf("%c", mat->datos[i][j]);
 			posicion++;
 		}
 		printf("\n");
 	}
 	
 	printf("\nMatriz descifrada:\n");
-	char mensajeEnc[(dim1*dim2) + 1];
+	char mensajeEnc[(mat->cols*mat->filas) + 1];
 	int posicionEnc = 0;
-	for (i = 0; i < dim2; i++)
+	for (i = 0; i < mat->filas; i++)
 	{
-		for (j = 0; j < dim1; j++)
+		for (j = 0; j < mat->cols; j++)
 		{
-			mensajeEnc[posicionEnc] = arreglo[j][i];
-			printf("%c ", arreglo[j][i]);
+			mensajeEnc[posicionEnc] = mat->datos[j][i];
+			printf("%c ", mat->datos[j][i]);
 			posicionEnc++;
 		}
 		printf("\n");
 	}
-	mensajeEnc[(dim1*dim2)] = '\0'; 
+	mensajeEnc[(mat->cols*mat->filas)] = '\0'; 
 	printf("\nMensaje transpuesto:\n");	
 	imprimir(mensajeEnc);
 }
