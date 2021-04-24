@@ -84,7 +84,7 @@ void imprimir(){
 	mensaje[strcspn(mensaje, "\r\n")] = 0;		//strcspn: devuelve la longitud de la cadena 	
 	printf("Número de saltos: \n");
 	scanf("%d", &saltos);
-	tomaDecision:
+	//tomaDecision:
 	printf("\n¿Que opcion desea realizar?\n");
 	printf("1: encriptar \n2: desencriptar\n");
 	scanf("%d", &decision);
@@ -97,7 +97,7 @@ void imprimir(){
 			break;
 		default:
 			printf("No se eligió un numero\n");
-			goto tomaDecision;
+			//goto tomaDecision;
 	}
 	printf("\n\n * \n * \n *\n\n");
 	while(getchar() != '\n');

@@ -4,7 +4,8 @@
 #include <math.h>
 
 #define MAX 80
-#define CGRN "\x1B[32m"
+#define CCYN "\x1B[36m"
+#define CWHT "\x1B[37m"
 
 typedef struct matriz{
 	unsigned filas;
@@ -18,8 +19,10 @@ void desencriptarMat(char mensaje[MAX], Matriz* mat);
 void imprimir(char* mensaje);
 
 int main(){
+	printf("%s \t********** CIFRADO POR MATRIZ TRANSPUESTA ************ \n", CCYN);
+	
 	char mensaje[MAX];
-	printf("\nMensaje: ");
+	printf("\n%sMensaje: ", CWHT);
 	fgets(mensaje, MAX, stdin);
 	mensaje[strcspn(mensaje, "\r\n")] = 0;
 	int op;
@@ -48,6 +51,9 @@ int main(){
 			printf("No se eligió bien");
 			goto Eleccion;
 	}
+	printf("\n\n\n * \n\n * \n\n *\n\n\n");
+	while(getchar() != '\n');
+	main();
 	return 0;
 }
 
@@ -97,10 +103,7 @@ void encriptarMat(char mensaje[MAX], Matriz* mat){
 		printf("\n");
 	}
 	mensajeEnc[(mat->cols*mat->filas)] = '\0'; 
-	printf("\nTAMANO MENSAJE: %ld\n", strlen(mensajeEnc));
-
-	
-	printf("\nMensaje transpuesto:\n");	
+	printf("\nMensaje cifrado:\n");	
 	imprimir(mensajeEnc);
 	
 }
@@ -117,9 +120,9 @@ void desencriptarMat(char mensaje[MAX], Matriz* mat){
 	for (i = 0; i < mat->cols; i++)
 	{
 		for (j = 0; j < mat->filas; j++)
-		{
+		{/*
 			if((mensaje[posicion] == '%') | (mensaje[posicion] == '&')) 
-				mensaje[posicion] = ' ';
+				mensaje[posicion] = ' ';*/
 			mat->datos[i][j] = mensaje[posicion];
 			printf("%c", mat->datos[i][j]);
 			posicion++;
@@ -127,13 +130,16 @@ void desencriptarMat(char mensaje[MAX], Matriz* mat){
 		printf("\n");
 	}
 	
-	printf("\nMatriz descifrada:\n");
+	printf("\nMatriz transpuesta:\n");
 	char mensajeEnc[(mat->cols*mat->filas) + 1];
 	int posicionEnc = 0;
 	for (i = 0; i < mat->filas; i++)
 	{
 		for (j = 0; j < mat->cols; j++)
 		{
+			if((mat->datos[j][i] == '%') | (mat->datos[j][i] == '&')) 
+				mensajeEnc[posicionEnc] = ' ';
+			else
 			mensajeEnc[posicionEnc] = mat->datos[j][i];
 			printf("%c ", mat->datos[j][i]);
 			posicionEnc++;
@@ -141,7 +147,7 @@ void desencriptarMat(char mensaje[MAX], Matriz* mat){
 		printf("\n");
 	}
 	mensajeEnc[(mat->cols*mat->filas)] = '\0'; 
-	printf("\nMensaje transpuesto:\n");	
+	printf("\nMensaje descifrado:\n");	
 	imprimir(mensajeEnc);
 }
 
