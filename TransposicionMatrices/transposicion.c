@@ -1,8 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 #define MAX 80
+#define CGRN "\x1B[32m"
+
 
 void matriz(char mensaje[MAX], int dim1); 
 
@@ -35,21 +38,19 @@ void matriz(char mensaje[MAX], int dim1){
 	}
 	
 	//concatenar relleno del mensaje
-	int resto = (dim1 * dim2) - strlen(mensaje);
+	int resto = abs((dim1 * dim2) - strlen(mensaje));
 	const char* relleno = "&";
 	for (i = 0; i < resto; i++)
 		strncat(mensaje, relleno, (strlen(mensaje)+i+1));
 	
 	//crear espacio de memoria para matriz
-	char** arreglo = (char**)malloc(sizeof(char) * dim2);
-	for (i = 0; i < dim1; i++)
-	{
+	char** arreglo = (char**)malloc(sizeof(char*) * dim2);
+	for (i = 0; i < dim2; i++)
 		arreglo[i] = (char*)malloc(sizeof(char) * dim1);
-		//strncpy(arreglo[i], msg, strlen(msg));
-	}
 	
-	//recorrer y llenar matriz
+	//recorrer y llenar matriz con el mensaje de r a c
 	int posicion = 0;
+	printf("\nMatriz original:\n");
 	for (i = 0; i < dim2; i++)
 	{
 		for (j = 0; j < dim1; j++)
@@ -63,5 +64,17 @@ void matriz(char mensaje[MAX], int dim1){
 		printf("\n");
 	}
 	
+		
+	//int posicionTrans = 0;
+	printf("\nMatriz transpuesta:\n");
+	for (i = 0; i < dim1; i++)
+	{
+		for (j = 0; j < dim2; j++)
+		{
+			printf("%c", arreglo[j][i]);
+		}
+		printf("\n");
+
+	}
 	
 }
