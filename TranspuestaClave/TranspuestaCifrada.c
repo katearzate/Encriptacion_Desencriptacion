@@ -12,6 +12,8 @@ typedef struct matriz{
 	char** datos;
 }Matriz; 
 
+void cifrar(char mensaje[MAX], char clave[MAX], Matriz* mat);
+
 int main(){
 	printf("%s \t********** CIFRADO POR MATRIZ TRANSPUESTA ************ \n", CCYN);
 	
@@ -25,8 +27,28 @@ int main(){
 	clave[strcspn(clave, "\r\n")] = 0;
 
 	Matriz* matriz = (Matriz*)malloc(sizeof(Matriz));
-	matriz->cols = strlen(clave); 	//saber el tamaño de las columnas
-
+	matriz->cols = strlen(clave); 	//tamaño de las columnas
+	size_t tamanoMen = 0;
+	tamanoMen = strlen(mensaje);	//tamaño de los renglones
+	matriz->filas = ((tamanoMen / matriz->cols) + 1); 		//+1 es para agregar la clave
+	if((tamanoMen % matriz->cols) != 0){
+		matriz->filas+=1;
+	}
+	
+	cifrar(mensaje, clave, matriz);
 }
 
-
+void cifrar(char mensaje[MAX], char clave[MAX], Matriz* mat){
+	int i;
+	
+	for (i = 0; i < strlen(mensaje); i++){
+		strncat(clave, mensaje, (strlen(clave)+i+1));
+		//printf("\n%s",clave);
+	}
+	
+	int j = 0;
+	while (clave[j]) {
+		printf("%c", (clave[j]));
+		j++;
+	}
+}
