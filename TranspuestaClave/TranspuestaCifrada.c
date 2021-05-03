@@ -39,16 +39,17 @@ int main(){
 }
 
 void cifrar(char mensaje[MAX], char clave[MAX], Matriz* mat){
-	int i;
+	int i, j = 0;
+	strncat(clave, mensaje, (strlen(clave)+1));
 	
-	for (i = 0; i < strlen(mensaje); i++){
-		strncat(clave, mensaje, (strlen(clave)+i+1));
-		//printf("\n%s",clave);
-	}
+	int resto = abs((mat->cols * mat->filas) - strlen(clave));
+	const char* relleno = "&";
+	for (i = 0; i < resto; i++)
+		strncat(clave, relleno, (strlen(clave)+i+1));
 	
-	int j = 0;
 	while (clave[j]) {
 		printf("%c", (clave[j]));
 		j++;
 	}
 }
+
