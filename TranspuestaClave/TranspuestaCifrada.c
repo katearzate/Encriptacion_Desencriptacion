@@ -15,7 +15,11 @@ typedef struct matriz{
 }Matriz; 
 
 void cifrar(char mensaje[MAX], char clave[MAX], Matriz* mat);
-void imprimir(char* mensaje);
+Matriz* transpuesta(Matriz* mat);
+void imprimirMensaje(char* mensaje);
+void imprimirMatriz(Matriz* mat);
+void crearEspacio(Matriz* mat);
+void liberarMemoria(Matriz* mat);
 
 int main(){
 	printf("%s \t********** CIFRADO POR MATRIZ TRANSPUESTA ************ \n", CCYN);
@@ -51,12 +55,9 @@ void cifrar(char mensaje[MAX], char clave[MAX], Matriz* mat){
 	for (i = 0; i < resto; i++)
 		strncat(clave, relleno, (strlen(clave)+i));
 
-	imprimir(clave);
+	imprimirMensaje(clave);
 	
-	//Crear espacio para la matriz
-	mat->datos = (char**)malloc(sizeof(char*) * mat->filas);
-	for (i = 0; i < mat->filas; i++)
-		mat->datos[i] = (char*)malloc(sizeof(char) * mat->cols);
+	crearEspacio(mat);
 		
 	//recorrer y llenar matriz con el mensaje de r a c
 	int posicion = 0;
@@ -73,42 +74,52 @@ void cifrar(char mensaje[MAX], char clave[MAX], Matriz* mat){
 		}
 		printf("\n");
 	}
-			
+		
+	printf("\nMatriz transpuesta:\n");
+	
+	Matriz* nvaMat = transpuesta(mat);
+	//imprimirMatriz(nvaMat);
+	
 	//acomodar alfabeticamente la clave y reordenar matriz
-	char caracter;
+	char* col;
 	printf("\n\nMatriz reordenada por clave: \n");
-	for (i = 0; i < (mat->cols) - 1; i++){
-		if(toascii(mat->datos[0][i]) > toascii(mat->datos[0][i+1])){
-			for (j = 0; j < mat->filas ; j++){
-				caracter = mat->datos[i][j];
-				mat->datos[i][j] = mat->datos[i+1][j];
-				mat->datos[i+1][j] = caracter;
-				
-				printf("%c ", mat->datos[i][j]);
-			}
+	for (i = 0; i < (nvaMat->filas)-1; i++){
+		if(nvaMat->datos[i][0] > nvaMat->datos[i+1][0]){
+			col = nvaMat->datos[i];
+			nvaMat->datos[i] = nvaMat->datos[i+1];
+			nvaMat->datos[i+1] = col;
+			 
+			i=0;
 		}
 	}
-
-	printf("\n************************\n");
-	for (i = 0; i < mat->filas; i++)
-	{
-		for (j = 0; j < mat->cols; j++)
-		{
-			if(toascii(mat->datos[0][j]) > toascii(mat->datos[0][j+1])) {
-				caracter = mat->datos[i][j];
-				mat->datos[i][j] = mat->datos[i+1][j];
-				mat->datos[i+1][j] = caracter;
-				
-			}
-			printf("%c ", mat->datos[i][j]);
-		}
-		printf("\n");
-	}
+	nvaMat = transpuesta(nvaMat);
+	imprimirMatriz(nvaMat);
 	
 	
 }
 
-void imprimir(char* mensaje){
+
+Matriz* transpuesta(Matriz* mat){
+	int i, j;
+	Matriz* nvaMatriz = (Matriz*)malloc(sizeof(Matriz));
+	
+	nvaMatriz->filas = mat->cols;
+	nvaMatriz->cols = mat->filas;
+	crearEspacio(nvaMatriz);
+	
+	for (i = 0; i < mat->filas; i++)
+	{
+		for (j = 0; j < mat->cols; j++)
+		{
+			nvaMatriz->datos[j][i] = mat->datos[i][j];
+		}
+	}
+	liberarMemoria(mat);
+	
+	return nvaMatriz;
+}
+
+void imprimirMensaje(char* mensaje){
 	int i = 0;
 	while (mensaje[i]) {
 		printf("%c", (mensaje[i]));
@@ -116,4 +127,31 @@ void imprimir(char* mensaje){
 	}
 }
 
+void imprimirMatriz(Matriz* mat){
+	int i, j;
+	for (i = 0; i < mat->filas; i++)
+	{
+		for (j = 0; j < mat->cols; j++)
+		{
+			printf("%c ", mat->datos[i][j]);
+		}
+		printf("\n");
+	} 
+}
 
+void crearEspacio(Matriz* mat){
+	int i;
+	mat->datos = (char**)malloc(sizeof(char*) * mat->filas);
+	for (i = 0; i < mat->filas; i++)
+		mat->datos[i] = (char*)malloc(sizeof(char) * mat->cols);
+}
+
+
+void liberarMemoria(Matriz* mat){
+	int i;
+	for (i = 0; i < mat->filas; i++)
+	{
+		free(mat->datos[i]);
+	}
+	free(mat->datos);
+}
