@@ -54,8 +54,6 @@ void cifrar(char mensaje[MAX], char clave[MAX], Matriz* mat){
 	const char* relleno = "&";
 	for (i = 0; i < resto; i++)
 		strncat(clave, relleno, (strlen(clave)+i));
-
-	imprimirMensaje(clave);
 	
 	crearEspacio(mat);
 		
@@ -78,6 +76,7 @@ void cifrar(char mensaje[MAX], char clave[MAX], Matriz* mat){
 	//acomodar alfabeticamente la clave y reordenar matriz
 	Matriz* nvaMat = transpuesta(mat);
 	char* col;
+	printf("\n*****************");
 	printf("\n\nMatriz por clave: \n");
 	for (i = 0; i < (nvaMat->filas)-1; i++){
 		if(nvaMat->datos[i][0] > nvaMat->datos[i+1][0]){
@@ -89,7 +88,6 @@ void cifrar(char mensaje[MAX], char clave[MAX], Matriz* mat){
 	}
 	nvaMat = transpuesta(nvaMat);
 	imprimirMatriz(nvaMat);
-	
 	
 }
 
@@ -123,15 +121,21 @@ void imprimirMensaje(char* mensaje){
 }
 
 void imprimirMatriz(Matriz* mat){
-	int i, j;
+	int i, j, posicionEnc = 0;
+	char mensajeEnc[(mat->cols*mat->filas) + 1];
 	for (i = 0; i < mat->filas; i++)
 	{
 		for (j = 0; j < mat->cols; j++)
 		{
 			printf("%c ", mat->datos[i][j]);
+			mensajeEnc[posicionEnc] = mat->datos[i][j];
+			posicionEnc++;
 		}
 		printf("\n");
 	} 
+	mensajeEnc[(mat->cols*mat->filas)] = '\0'; 
+	printf("\nResultado:\n");
+	imprimirMensaje(mensajeEnc);	
 }
 
 void crearEspacio(Matriz* mat){
