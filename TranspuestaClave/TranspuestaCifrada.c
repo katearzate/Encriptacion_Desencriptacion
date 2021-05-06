@@ -133,9 +133,7 @@ void descifrar(char mensaje[MAX], char clave[MAX], Matriz* mat){
 		printf("\n");
 	}
 	Matriz* nvaMat = transpuesta(mat);
-	//reacomodar matriz por clave ingresada
-	printf("\n*****************");
-	printf("\n\nMatriz por clave: \n");
+	
 	/*char* col;
 	int aux = 0;
 	for (i = 0; i < (nvaMat->filas)-1; i++)
@@ -152,6 +150,10 @@ void descifrar(char mensaje[MAX], char clave[MAX], Matriz* mat){
 	imprimirMatriz(nvaMat);
 	*/
 	
+	
+	//reacomodar matriz por clave ingresada
+	printf("\n*****************");
+	printf("\n\nMatriz por clave: \n");
 	char* col;
 	for (i = 0; i < nvaMat->filas; i++)
 	{
@@ -167,7 +169,7 @@ void descifrar(char mensaje[MAX], char clave[MAX], Matriz* mat){
 	}
 	nvaMat = transpuesta(nvaMat);
 	
-	//imprimir mensaje
+	//Leer e imprimir mensaje desencriptado
 	char mensajeEnc[(nvaMat->cols*(nvaMat->filas - 1)) + 1];
 	int posicionEnc = 0;
 	for (i = 1; i < nvaMat->filas; i++)
