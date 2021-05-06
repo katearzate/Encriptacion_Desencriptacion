@@ -65,7 +65,10 @@ int main(){
 			printf("No se eligió bien");
 			goto Eleccion;
 	}
-	
+	printf("\n\n\n * \n\n * \n\n *\n\n\n");
+	while(getchar() != '\n');
+	main();
+	return 0;
 }
 
 //*********************** FUNCION DE CIFRADO ***********************
@@ -130,32 +133,58 @@ void descifrar(char mensaje[MAX], char clave[MAX], Matriz* mat){
 		printf("\n");
 	}
 	Matriz* nvaMat = transpuesta(mat);
-	
 	//reacomodar matriz por clave ingresada
 	printf("\n*****************");
 	printf("\n\nMatriz por clave: \n");
-	char* col;
+	/*char* col;
 	int aux = 0;
 	for (i = 0; i < (nvaMat->filas)-1; i++)
 	{
-		printf("%d = %d \n", nvaMat->datos[aux][0], clave[i]);
 		if(nvaMat->datos[aux][0] == clave[i]){
-			//printf("aux: %d, i: %d\n *\n", aux,i);
 			col = nvaMat->datos[i];
 			nvaMat->datos[i] = nvaMat->datos[aux];
 			nvaMat->datos[aux] = col; 
 			aux++;
-			i = -1;
+			i = 0;
 		}
-		printf("%d = %d \n*\n", nvaMat->datos[aux][0], clave[i]);
-			
-		//otro++;
-		//printf("\nOTRO: %d\n", otro);
 	}
+	nvaMat = transpuesta(nvaMat);
 	imprimirMatriz(nvaMat);
-	//nvaMat = transpuesta(nvaMat);
-	//imprimirMatriz(nvaMat);
+	*/
 	
+	char* col;
+	for (i = 0; i < nvaMat->filas; i++)
+	{
+		for (j = 0; j < strlen(clave); j++)
+		{
+			if(nvaMat->datos[i][0] == clave[j]){
+				col = nvaMat->datos[i];
+				nvaMat->datos[i] = nvaMat->datos[j];
+				nvaMat->datos[j] = col;
+				break;
+			}
+		}
+	}
+	nvaMat = transpuesta(nvaMat);
+	
+	//imprimir mensaje
+	char mensajeEnc[(nvaMat->cols*(nvaMat->filas - 1)) + 1];
+	int posicionEnc = 0;
+	for (i = 1; i < nvaMat->filas; i++)
+	{
+		for (j = 0; j < nvaMat->cols; j++)
+		{
+			printf("%c ", nvaMat->datos[i][j]);
+			if((nvaMat->datos[i][j] == '%') || (nvaMat->datos[i][j] == '&')) 
+				nvaMat->datos[i][j] = ' ';
+			mensajeEnc[posicionEnc] = nvaMat->datos[i][j];
+			posicionEnc++;
+		}
+		printf("\n");
+	} 
+	mensajeEnc[mat->cols*(mat->filas-1)] = '\0'; 
+	printf("\nResultado:\n");
+	imprimirMensaje(mensajeEnc);
 }
 
 //*********************** MATRIZ TRANSPUESTA ***********************
