@@ -47,7 +47,7 @@ int main(){
 }
 
 void cifrar(char mensaje[MAX], char clave[MAX], Matriz* mat){
-	int i, j = 0;
+	int i, j;
 	strncat(clave, mensaje, (strlen(mensaje)));
 	
 	int resto = abs((mat->cols * mat->filas) - strlen(clave));
@@ -74,22 +74,17 @@ void cifrar(char mensaje[MAX], char clave[MAX], Matriz* mat){
 		}
 		printf("\n");
 	}
-		
-	printf("\nMatriz transpuesta:\n");
-	
-	Matriz* nvaMat = transpuesta(mat);
-	//imprimirMatriz(nvaMat);
 	
 	//acomodar alfabeticamente la clave y reordenar matriz
+	Matriz* nvaMat = transpuesta(mat);
 	char* col;
-	printf("\n\nMatriz reordenada por clave: \n");
+	printf("\n\nMatriz por clave: \n");
 	for (i = 0; i < (nvaMat->filas)-1; i++){
 		if(nvaMat->datos[i][0] > nvaMat->datos[i+1][0]){
 			col = nvaMat->datos[i];
 			nvaMat->datos[i] = nvaMat->datos[i+1];
-			nvaMat->datos[i+1] = col;
-			 
-			i=0;
+			nvaMat->datos[i+1] = col; 
+			i = -1;
 		}
 	}
 	nvaMat = transpuesta(nvaMat);
