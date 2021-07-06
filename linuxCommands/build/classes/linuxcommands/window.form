@@ -27,16 +27,21 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jTextField1" max="32767" attributes="0"/>
-                  <Component id="list1" max="32767" attributes="0"/>
+                  <Component id="listResult" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="commandText" min="-2" pref="280" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Component id="btnEnterCommand" min="-2" pref="81" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <Component id="jButton1" min="-2" pref="183" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jButton2" min="-2" pref="183" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="commandText" max="32767" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="btnEnterCommand" min="-2" pref="81" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="jButton1" min="-2" pref="183" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="jButton2" min="-2" pref="183" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -47,12 +52,12 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="commandText" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
-                  <Component id="btnEnterCommand" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="btnEnterCommand" pref="26" max="32767" attributes="0"/>
+                  <Component id="commandText" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="list1" min="-2" pref="144" max="-2" attributes="0"/>
+              <Component id="listResult" min="-2" pref="144" max="-2" attributes="0"/>
               <EmptySpace pref="40" max="32767" attributes="0"/>
               <Component id="jTextField1" min="-2" pref="27" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
@@ -66,22 +71,15 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JTextField" name="commandText">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="type a command..."/>
-      </Properties>
-      <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="commandTextMouseClicked"/>
-        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="commandTextMouseEntered"/>
-        <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="commandTextMouseExited"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JButton" name="btnEnterCommand">
       <Properties>
         <Property name="text" type="java.lang.String" value="Enter"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEnterCommandActionPerformed"/>
+      </Events>
     </Component>
-    <Component class="java.awt.List" name="list1">
+    <Component class="java.awt.List" name="listResult">
     </Component>
     <Component class="javax.swing.JButton" name="jButton1">
       <Properties>
@@ -97,6 +95,8 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Enter username..."/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="commandText">
     </Component>
   </SubComponents>
 </Form>

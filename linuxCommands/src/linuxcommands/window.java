@@ -5,6 +5,8 @@
  */
 package linuxcommands;
 
+import java.io.File;
+
 /**
  *
  * @author katearzate
@@ -25,29 +27,21 @@ public class window extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        commandText = new javax.swing.JTextField();
         btnEnterCommand = new javax.swing.JButton();
-        list1 = new java.awt.List();
+        listResult = new java.awt.List();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
+        commandText = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        commandText.setText("type a command...");
-        commandText.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                commandTextMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                commandTextMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                commandTextMouseExited(evt);
+        btnEnterCommand.setText("Enter");
+        btnEnterCommand.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEnterCommandActionPerformed(evt);
             }
         });
-
-        btnEnterCommand.setText("Enter");
 
         jButton1.setText("Add user");
 
@@ -63,26 +57,29 @@ public class window extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTextField1)
-                    .addComponent(list1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(listResult, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(commandText, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnEnterCommand, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(commandText)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnEnterCommand, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(commandText, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEnterCommand, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnEnterCommand, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+                    .addComponent(commandText))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(list1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(listResult, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -95,17 +92,39 @@ public class window extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void commandTextMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_commandTextMouseClicked
-        //
-    }//GEN-LAST:event_commandTextMouseClicked
-
-    private void commandTextMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_commandTextMouseEntered
-        commandText.setText("");
-    }//GEN-LAST:event_commandTextMouseEntered
-
-    private void commandTextMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_commandTextMouseExited
-        commandText.setText("type a command...");
-    }//GEN-LAST:event_commandTextMouseExited
+    private void btnEnterCommandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnterCommandActionPerformed
+        String command, directory = null;
+        
+        command = commandText.getText();
+        String[] datos = command.split(" ");
+        
+        switch(datos[0]){
+            case "cp": 
+                listResult.add("1 comando!");
+                break;
+            case "ls": 
+                for(String i: datos){
+                    listResult.clear();
+                    directory = i;
+                }
+                break;
+            default:
+                System.out.println("Comando incorrecto");
+                break;
+        }
+        
+        File direct = new File(directory); //directorio a listar                                             
+        String[] list = direct.list();
+        listResult.clear();
+        if(list == null){
+            listResult.add("* * Directorio vacío * *");
+        }else{
+            for (int i = 0; i < list.length; i++) {
+                listResult.add(list[i]);
+            }
+        }
+        
+    }//GEN-LAST:event_btnEnterCommandActionPerformed
 
     /**
      * @param args the command line arguments
@@ -148,6 +167,6 @@ public class window extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JTextField jTextField1;
-    private java.awt.List list1;
+    private java.awt.List listResult;
     // End of variables declaration//GEN-END:variables
 }
