@@ -25,7 +25,7 @@ public class LinuxCommands {
      */
     public static void main(String[] args) throws FileNotFoundException, IOException {
         Scanner read = new Scanner(System.in);
-        
+        /*
         String command = "7-- /home/katearzate/Desktop/ej";
         
         String[] datos = command.split(" ");
@@ -36,7 +36,7 @@ public class LinuxCommands {
         for (int i = 0; i < 3; i++) {
             switch(datos[0].charAt(i)){
                 case '-':
-                    System.out.println("no hay!");
+                    System.out.println("ningun permiso");
                     break;
                 case '1':
                     switch(i){
@@ -147,29 +147,12 @@ public class LinuxCommands {
             }
         }
         Files.setPosixFilePermissions(file.toPath(), perms);
-        
-        /*
-        Set<PosixFilePermission> perms = new HashSet<>();
-        perms.add(PosixFilePermission.OWNER_READ);
-        perms.add(PosixFilePermission.OWNER_WRITE);
-        perms.add(PosixFilePermission.OWNER_EXECUTE);
-
-        perms.add(PosixFilePermission.OTHERS_READ);
-        perms.add(PosixFilePermission.OTHERS_WRITE);
-        perms.add(PosixFilePermission.OTHERS_EXECUTE);
-
-        perms.add(PosixFilePermission.GROUP_READ);
-        perms.add(PosixFilePermission.GROUP_WRITE);
-        perms.add(PosixFilePermission.GROUP_EXECUTE);
-
-        Files.setPosixFilePermissions(file.toPath(), perms);
         */
         
-        /*
         window w = new window();
         w.setTitle("Terminal Simulation");
         w.setLocationRelativeTo(null);
         w.setVisible(true);
-        */
+        
     }
 }
