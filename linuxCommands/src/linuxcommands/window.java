@@ -100,7 +100,7 @@ public class window extends javax.swing.JFrame {
 
     private void btnEnterCommandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnterCommandActionPerformed
         String[] datos = commandText.getText().split(" ");
-        String pass = "";
+        String pass = "t10597110";
         
         //TODO: validacion de que no son más de 3 espacios
         
@@ -158,6 +158,7 @@ public class window extends javax.swing.JFrame {
             //*******************************************************************
                 
                 
+            //************************* CHOWN COMMAND ***************************
             case "chown":
                 listResult.clear();
                 String[] commands = {"/bin/bash","-c", "echo "+pass+"| sudo -S chown "+datos[1]+" "+datos[2]};
@@ -179,6 +180,7 @@ public class window extends javax.swing.JFrame {
                     e.printStackTrace();
                 }
                 break;
+            //*******************************************************************
                 
                 
             //************************ CHMOD COMMAND ****************************
@@ -309,6 +311,61 @@ public class window extends javax.swing.JFrame {
                     Logger.getLogger(window.class.getName()).log(Level.SEVERE, null, ex);
                     listResult.add("ERROR");
                 }
+            //*******************************************************************
+                
+                
+            //*********************** ADDUSER COMMAND ***************************
+            case "adduser":
+                listResult.clear();
+                String paUser = "123"; 
+
+                String[] cmds = {"/bin/bash","-c", "echo "+pass+"| sudo -S adduser "+datos[1], paUser, paUser,"","","","","","y"};
+                try {
+                    Process p = Runtime.getRuntime().exec(cmds);
+
+                    p.waitFor();
+                    BufferedReader b = new BufferedReader(new InputStreamReader(p.getInputStream()));
+                    String line = "";
+
+                    while ((line = b.readLine()) != null) {
+                        System.out.println(line);
+                    }
+                    
+                    listResult.add("Usuario agregado!");
+                    b.close();
+                } catch (Exception e) {
+                    System.err.println("Failed to execute bash with command");
+                    e.printStackTrace();
+                }
+
+                
+                break;
+            //*******************************************************************
+                
+                
+            //*********************** DELUSER COMMAND ***************************
+            case "deluser":
+                listResult.clear();
+
+                String[] cmdsDel = {"/bin/bash","-c", "echo "+pass+"| sudo -S deluser "+datos[1]};
+                try {
+                    Process p = Runtime.getRuntime().exec(cmdsDel);
+
+                    p.waitFor();
+                    BufferedReader b = new BufferedReader(new InputStreamReader(p.getInputStream()));
+                    String line = "";
+
+                    while ((line = b.readLine()) != null) {
+                        System.out.println(line);
+                    }
+                    
+                    listResult.add("Usuario Eliminado!");
+                    b.close();
+                } catch (Exception e) {
+                    System.err.println("Failed to execute bash with command");
+                    e.printStackTrace();
+                }
+                break;
             //*******************************************************************
                 
             default:
