@@ -1,10 +1,12 @@
 package linuxcommands;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.attribute.PosixFilePermission;
@@ -98,6 +100,7 @@ public class window extends javax.swing.JFrame {
 
     private void btnEnterCommandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnterCommandActionPerformed
         String[] datos = commandText.getText().split(" ");
+        String pass = "";
         
         //TODO: validacion de que no son más de 3 espacios
         
@@ -156,7 +159,25 @@ public class window extends javax.swing.JFrame {
                 
                 
             case "chown":
-                //nomUsuario directorio
+                listResult.clear();
+                String[] commands = {"/bin/bash","-c", "echo "+pass+"| sudo -S chown "+datos[1]+" "+datos[2]};
+                try {
+                    Process p = Runtime.getRuntime().exec(commands);
+
+                    p.waitFor();
+                    BufferedReader b = new BufferedReader(new InputStreamReader(p.getInputStream()));
+                    String line = "";
+
+                    while ((line = b.readLine()) != null) {
+                        System.out.println(line);
+                    }
+                    
+                    listResult.add("Propietario actualizado!");
+                    b.close();
+                } catch (Exception e) {
+                    System.err.println("Failed to execute bash with the command");
+                    e.printStackTrace();
+                }
                 break;
                 
                 
