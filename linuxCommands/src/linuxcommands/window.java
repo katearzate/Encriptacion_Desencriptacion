@@ -32,9 +32,6 @@ public class window extends javax.swing.JFrame {
 
         btnEnterCommand = new javax.swing.JButton();
         listResult = new java.awt.List();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
         commandText = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -45,12 +42,6 @@ public class window extends javax.swing.JFrame {
                 btnEnterCommandActionPerformed(evt);
             }
         });
-
-        jButton1.setText("Add user");
-
-        jButton2.setText("Delete user");
-
-        jTextField1.setText("Enter username...");
 
         commandText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -65,14 +56,9 @@ public class window extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField1)
                     .addComponent(listResult, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(commandText)
+                        .addComponent(commandText, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnEnterCommand, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -86,13 +72,7 @@ public class window extends javax.swing.JFrame {
                     .addComponent(commandText))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(listResult, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addContainerGap())
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         pack();
@@ -100,9 +80,7 @@ public class window extends javax.swing.JFrame {
 
     private void btnEnterCommandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnterCommandActionPerformed
         String[] datos = commandText.getText().split(" ");
-        String pass = "t10597110";
-        
-        //TODO: validacion de que no son más de 3 espacios
+        String pass = "";
         
         switch(datos[0]){
             //************************* CP COMMAND ******************************
@@ -140,59 +118,16 @@ public class window extends javax.swing.JFrame {
                 break;
             //*******************************************************************
             
-                
-            //************************* LS COMMAND ******************************    
-            case "ls": 
-                listResult.clear();
-                
-                File direct = new File(datos[1]); //directorio a listar                                             
-                String[] list = direct.list();
-                if(list == null){
-                    listResult.add("Directorio vacío");
-                }else{
-                    for (int i = 0; i < list.length; i++) {
-                        listResult.add(list[i]);
-                    }
-                }
-                break;    
-            //*******************************************************************
-                
-                
-            //************************* CHOWN COMMAND ***************************
-            case "chown":
-                listResult.clear();
-                String[] commands = {"/bin/bash","-c", "echo "+pass+"| sudo -S chown "+datos[1]+" "+datos[2]};
-                try {
-                    Process p = Runtime.getRuntime().exec(commands);
-
-                    p.waitFor();
-                    BufferedReader b = new BufferedReader(new InputStreamReader(p.getInputStream()));
-                    String line = "";
-
-                    while ((line = b.readLine()) != null) {
-                        System.out.println(line);
-                    }
-                    
-                    listResult.add("Propietario actualizado!");
-                    b.close();
-                } catch (Exception e) {
-                    System.err.println("Failed to execute bash with the command");
-                    e.printStackTrace();
-                }
-                break;
-            //*******************************************************************
-                
-                
             //************************ CHMOD COMMAND ****************************
             case "chmod":
                 listResult.clear();
-                
+
                 File filePer = new File(datos[2]);
                 Set<PosixFilePermission> perms = new HashSet<>();
                 for (int i = 0; i < 3; i++) {
                     switch(datos[1].charAt(i)){
                         case '-':
-                            System.out.println("-");
+                            System.out.println("ningun permiso");
                             break;
                         case '1':
                             switch(i){
@@ -302,17 +237,61 @@ public class window extends javax.swing.JFrame {
                             break;
                     }
                 }
-            
+
                 try {
                     Files.setPosixFilePermissions(filePer.toPath(), perms);
                     listResult.add("Permisos cambiados!");
-                    
+
                 } catch (IOException ex) {
                     Logger.getLogger(window.class.getName()).log(Level.SEVERE, null, ex);
                     listResult.add("ERROR");
                 }
+                break;
             //*******************************************************************
                 
+                
+                
+            //************************* LS COMMAND ******************************    
+            case "ls": 
+                listResult.clear();
+                
+                File direct = new File(datos[1]); //directorio a listar                                             
+                String[] list = direct.list();
+                if(list == null){
+                    listResult.add("Directorio vacío");
+                }else{
+                    for (int i = 0; i < list.length; i++) {
+                        listResult.add(list[i]);
+                    }
+                }
+                break;    
+            //*******************************************************************
+                
+                
+            //************************* CHOWN COMMAND ***************************
+            case "chown":
+                listResult.clear();
+                String[] commands = {"/bin/bash","-c", "echo "+pass+"| sudo -S chown "+datos[1]+" "+datos[2]};
+                try {
+                    Process p = Runtime.getRuntime().exec(commands);
+
+                    p.waitFor();
+                    BufferedReader b = new BufferedReader(new InputStreamReader(p.getInputStream()));
+                    String line = "";
+
+                    while ((line = b.readLine()) != null) {
+                        System.out.println(line);
+                    }
+                    
+                    listResult.add("Propietario actualizado!");
+                    b.close();
+                } catch (Exception e) {
+                    System.err.println("Failed to execute bash with the command");
+                    e.printStackTrace();
+                }
+                break;
+            //*******************************************************************
+            
                 
             //*********************** ADDUSER COMMAND ***************************
             case "adduser":
@@ -414,9 +393,6 @@ public class window extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEnterCommand;
     private javax.swing.JTextField commandText;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JTextField jTextField1;
     private java.awt.List listResult;
     // End of variables declaration//GEN-END:variables
 }
