@@ -97,14 +97,12 @@ public class window extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEnterCommandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnterCommandActionPerformed
-   
-        //String command = commandText.getText();
         String[] datos = commandText.getText().split(" ");
         
         //TODO: validacion de que no son más de 3 espacios
         
         switch(datos[0]){
-            //************************* CP COMMAND ********************************
+            //************************* CP COMMAND ******************************
             case "cp": 
                 listResult.clear();
                 String source = datos[1];
@@ -147,7 +145,7 @@ public class window extends javax.swing.JFrame {
                 File direct = new File(datos[1]); //directorio a listar                                             
                 String[] list = direct.list();
                 if(list == null){
-                    //*******************************************************************
+                    listResult.add("Directorio vacío");
                 }else{
                     for (int i = 0; i < list.length; i++) {
                         listResult.add(list[i]);
@@ -171,7 +169,7 @@ public class window extends javax.swing.JFrame {
                 for (int i = 0; i < 3; i++) {
                     switch(datos[1].charAt(i)){
                         case '-':
-                            System.out.println("ningun permiso");
+                            System.out.println("-");
                             break;
                         case '1':
                             switch(i){
